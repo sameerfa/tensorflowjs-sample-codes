@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Tensorflow.js</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
+</head>
+<body>
+    <div id="output_field"></div>
+</body>
+<script>
+    async function learnLinear() {
+
+        const model = tf.sequential();
+        model.add(tf.layers.dense({units: 1, inputShape: [1]}));
+
+        //const learningRate = 1;
+        //const optimizer = tf.train.sgd(learningRate);
+
+        model.compile({
+            loss: 'meanSquaredError',
+            //optimizer: optimizer,
+            optimizer: 'sgd',
+        });
+
+        //sameer 19 1 13 5 5 18 
+        //reema 18 5 5 13 1 
+        //david 4 1 22 9 4 
+        //john 10 15 8 14 
+        //smith 19 13 9 20 8 
+        //jane 10 1 14 5 
+
+        
+        //const xs = tf.tensor2d([191135518, 1855131, 412294, 1015814, 19139208, 101145], [6, 1]);
+        //const ys = tf.tensor2d([0, 1, 0, 0, 0, -1], [6, 1]);
+
+        const xs = tf.tensor2d([1, 2, 3, 4, 5, 6], [6, 1]);
+        const ys = tf.tensor2d([-1, -2, -3, -4, -5, -6], [6, 1]);
+
+        await model.fit(xs, ys, { epochs: 200 });
+
+        //var pred = model.predict(tf.tensor2d([19113], [1, 1])); //sam 19 1 13
+        //var readable_output = pred.dataSync();
+        //console.log(readable_output);
+        document.getElementById('output_field').innerText = model.predict(tf.tensor2d([7], [1, 1]));
+
+    }
+    learnLinear();
+</script>
+</html>
